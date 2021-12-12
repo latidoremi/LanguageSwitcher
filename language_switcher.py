@@ -49,7 +49,7 @@ def load_user_pref_lang(context):
     if not f:
         return
 
-    pref = context.preferences.addons['LanguageSwitcher'].preferences
+    pref = context.preferences.addons[__package__].preferences
     pref.lang_stack.clear()
     for line in f:
         line = line.strip()
@@ -63,7 +63,7 @@ def update_user_pref_lang(context):
     dir = get_dir("user_pref_lang.txt")
 
     f = open(dir, "w")
-    pref = context.preferences.addons['LanguageSwitcher'].preferences
+    pref = context.preferences.addons[__package__].preferences
  
     for i in pref.lang_stack:
         f.write(i.lang+"\n")
@@ -79,7 +79,7 @@ class LS_OT_switch(bpy.types.Operator):
     bl_options = {'UNDO'}
     
     def execute(self, context):
-        pref = context.preferences.addons['LanguageSwitcher'].preferences
+        pref = context.preferences.addons[__package__].preferences
         
         index = pref.act_idx
         index +=1
@@ -99,7 +99,7 @@ class LS_OT_add_lang(bpy.types.Operator):
     bl_options = {'UNDO','INTERNAL'}
     
     def execute(self, context):
-        pref = context.preferences.addons['LanguageSwitcher'].preferences
+        pref = context.preferences.addons[__package__].preferences
         
         item = pref.lang_stack.add()
 
@@ -114,11 +114,11 @@ class LS_OT_remove_lang(bpy.types.Operator):
     
     @classmethod
     def poll(cls, context):
-        pref = context.preferences.addons['LanguageSwitcher'].preferences
+        pref = context.preferences.addons[__package__].preferences
         return pref.lang_stack
     
     def execute(self, context):
-        pref = context.preferences.addons['LanguageSwitcher'].preferences
+        pref = context.preferences.addons[__package__].preferences
         
         index = pref.act_idx
         
@@ -139,11 +139,11 @@ class LS_OT_move(bpy.types.Operator):
     
     @classmethod
     def poll(cls, context):
-        pref = context.preferences.addons['LanguageSwitcher'].preferences
+        pref = context.preferences.addons[__package__].preferences
         return pref.lang_stack
     
     def execute(self, context):
-        pref = context.preferences.addons['LanguageSwitcher'].preferences
+        pref = context.preferences.addons[__package__].preferences
         index = pref.act_idx
         max_index = len(pref.lang_stack)-1
         
@@ -206,7 +206,7 @@ class LanguageSwitcherPreferences(bpy.types.AddonPreferences):
 
 
 def LS_header(self, context):
-    ad = context.preferences.addons.get('LanguageSwitcher')
+    ad = context.preferences.addons.get(__package__)
     if not ad:
         return
     pref = ad.preferences
